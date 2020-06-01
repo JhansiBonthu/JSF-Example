@@ -12,6 +12,7 @@
 		<h:dataTable value="#{simpleCrudBean.list}" var="item">
 			<h:column><f:facet name="header">ID</f:facet>#{item.id}</h:column>
 			<h:column><f:facet name="header">Name</f:facet>#{item.name}</h:column>
+			<h:column><f:facet name="header">Age</f:facet>#{item.age}</h:column>
 			<h:column>
 				<h:commandButton value="edit" action="#{simpleCrudBean.edit(item)}" />
 			</h:column>
@@ -28,7 +29,8 @@
 	<h:panelGroup rendered="#{!simpleCrudBean.edit}">
 		<h3>Add student</h3>
 		<h:form>
-			<p>Name: <h:inputText value="#{simpleCrudBean.item.name}" /></p>
+			<p>Name: <h:inputText value="#{simpleCrudBean.item.name}" required="true"/></p>
+			<p>Age: <h:inputText value="#{simpleCrudBean.item.age}" required="true" /></p>
 			<p>
 				<h:commandButton value="add" action="#{simpleCrudBean.add}" />
 				<h:commandButton value="reset" action="#{simpleCrudBean.resetAdd}" />
@@ -39,7 +41,8 @@
 	<h:panelGroup rendered="#{simpleCrudBean.edit}">
 		<h3>Edit student #{simpleCrudBean.item.id}</h3>
 		<h:form>
-			<p>Name: <h:inputText value="#{simpleCrudBean.item.name}" /></p>
+			<p>Name: <h:inputText value="#{simpleCrudBean.item.name}" required="true" /></p>
+			<p>Age: <h:inputText value="#{simpleCrudBean.item.age}" required="true" /></p>
 			<p>
 				<h:commandButton value="save" action="#{simpleCrudBean.saveEdit}" />
 				<h:commandButton value="cancel" action="#{simpleCrudBean.cancelEdit}" />

@@ -2,94 +2,98 @@ package com.song.jsf.example;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.song.jsf.example.util.CommonUtils;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
+@Named
 public class FreshsafeCrudBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private List<Student> list;
-    private Student item = new Student();
-    private Student beforeEditItem = null;
-    private boolean edit;
+	@Autowired
+	private StudentService studentService;
+	private List<Student> students;
+	private Student student = new Student();
+	private Student beforeEditStudent = null;
+	private boolean edit;
 
-    @ManagedProperty(value="#{commonUtils}")
-	private CommonUtils util;
-	public void setUtil(CommonUtils util) {
-		this.util = util;
+	private CommonUtils util = new CommonUtils();
+
+	@PostConstruct
+	public void init() {
+		students = studentService.getAllStudents();
 	}
 
-    @PostConstruct
-    public void init() {
-        list = new ArrayList<Student>();
-    }
+	public void add() {
+		studentService.saveOrUpdate(student);
+		student = new Student();
+		students = studentService.getAllStudents();
+		if (util != null)
+			util.redirectWithGet();
+	}
 
-    public void add() {
-    	// DAO save the add
-        item.setId(list.isEmpty() ? 1 : list.get(list.size() - 1).getId() + 1);
-        list.add(item);
-        item = new Student();
+	public void resetAdd() {
+		student = new Student();
+		students = studentService.getAllStudents();
 
-        util.redirectWithGet();
-    }
+		util.redirectWithGet();
+	}
 
-    public void resetAdd() {
-    	item = new Student();
+	public void edit(Student student) {
+		beforeEditStudent = student.clone();
+		this.student = student;
+		edit = true;
 
-    	util.redirectWithGet();
-    }
+		util.redirectWithGet();
+	}
 
-    public void edit(Student item) {
-    	beforeEditItem = item.clone();
-        this.item = item;
-        edit = true;
+	public void cancelEdit() {
+		this.student.restore(beforeEditStudent);
+		this.student = new Student();
+		edit = false;
+		students = studentService.getAllStudents();
 
-        util.redirectWithGet();
-    }
+		util.redirectWithGet();
+	}
 
-    public void cancelEdit() {
-    	this.item.restore(beforeEditItem);
-        this.item = new Student();
-        edit = false;
+	public void saveEdit() {
+		if (this.student.getName().isEmpty())
+			this.student.setName(beforeEditStudent.getName());
+		if (this.student.getAge() == 0)
+			this.student.setAge(beforeEditStudent.getAge());
+		studentService.update(this.student, this.student.getId());
+		this.student = new Student();
+		students = studentService.getAllStudents();
+		edit = false;
 
-        util.redirectWithGet();
-    }
+		util.redirectWithGet();
+	}
 
-    public void saveEdit() {
-    	// DAO save the edit
-        this.item = new Student();
-        edit = false;
+	public void delete(Student student) throws IOException {
+		studentService.delete(student.getId());
+		students = studentService.getAllStudents();
+		util.redirectWithGet();
+	}
 
-        util.redirectWithGet();
-    }
+	public List<Student> getStudents() {
+		return students;
+	}
 
-    public void delete(Student item) throws IOException {
-    	// DAO save the delete
-        list.remove(item);
+	public Student getStudent() {
+		return this.student;
+	}
 
-        util.redirectWithGet();
-    }
-
-    public List<Student> getList() {
-        return list;
-    }
-
-    public Student getItem() {
-        return this.item;
-    }
-
-    public boolean isEdit() {
-        return this.edit;
-    }
-
+	public boolean isEdit() {
+		return this.edit;
+	}
 
 }

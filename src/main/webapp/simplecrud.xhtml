@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+<h:head>
+	<title>Simple CRUD</title>
+</h:head>
+
+<h:body>
+	<h3>List students</h3>
+	
+	<h:form rendered="#{not empty simpleCrudBean.students}">
+		<rich:dataTable value="#{simpleCrudBean.students}" var="student" id="table" width="300px">
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Id"/>
+				</f:facet>
+				<h:outputText value="#{student.id}"/>
+			</rich:column>
+			<rich:column sortBy="#{student.name}" id="name" sortOrder="#{simpleCrudBean.namesOrder}" sortType="custom">
+				<f:facet name="header">
+					<a4j:commandLink value="Sort by Name" render="table" action="#{simpleCrudBean.sortByNames}" />
+				</f:facet>
+				<h:outputText value="#{student.name}"/>
+			</rich:column>
+			<rich:column sortBy="#{student.age}" id="age" sortOrder="#{simpleCrudBean.ageOrder}" sortType="custom">
+				<f:facet name="header">
+					<a4j:commandLink value="Sort by Age" render="table" action="#{simpleCrudBean.sortByAge}" />
+				</f:facet>
+				<h:outputText value="#{student.age}"/>
+			</rich:column>
+			<rich:column sortBy="#{student.educationLevel}" id="educationLevel" sortOrder="#{simpleCrudBean.educationLevelOrder}" sortType="custom">
+				<f:facet name="header">
+					<a4j:commandLink value="Sort by Education Level" render="table" action="#{simpleCrudBean.sortByEducationLevel}" />
+				</f:facet>
+				<h:outputText value="#{student.educationLevel}"/>
+			</rich:column>
+			<rich:column>
+				<h:commandButton value="edit" action="#{simpleCrudBean.edit(student)}" />
+			</rich:column>
+			<rich:column>
+				<h:commandButton value="delete" action="#{simpleCrudBean.delete(student)}" />
+			</rich:column>
+		</rich:dataTable>
+	</h:form>
+
+	<h:panelGroup rendered="#{empty simpleCrudBean.students}">
+		<p>No students! Please add students.</p>
+	</h:panelGroup>
+
+	<h:panelGroup rendered="#{!simpleCrudBean.edit}">
+		<h3>Add student</h3>
+		<h:form>
+			<p>Name: <h:inputText value="#{simpleCrudBean.student.name}"/></p>
+			<p>Age: <h:inputText value="#{simpleCrudBean.student.age}" /></p>
+			<p>
+				<h:commandButton value="add" action="#{simpleCrudBean.add}" />
+				<h:commandButton value="reset" action="#{simpleCrudBean.resetAdd}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
+	
+	<h:panelGroup rendered="#{simpleCrudBean.edit}">
+		<h3>Edit student #{simpleCrudBean.student.id}</h3>
+		<h:form>
+			<p>Name: <h:inputText value="#{simpleCrudBean.student.name}" /></p>
+			<p>Age: <h:inputText value="#{simpleCrudBean.student.age}" /></p>
+			<p>
+				<h:commandButton value="save" action="#{simpleCrudBean.saveEdit}" />
+				<h:commandButton value="cancel" action="#{simpleCrudBean.cancelEdit}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
+	<p>
+		<a href="welcome.xhtml">Go back to index</a>
+	</p>
+</h:body>
+</html>

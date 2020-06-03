@@ -2,33 +2,38 @@ package com.song.jsf.example;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 
 import org.richfaces.component.SortOrder;
+//import org.richfaces.component.SortOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @ManagedBean
 @ViewScoped
+@Named
 public class SimpleCrudBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(SimpleCrudBean.class.getName());
-
-	private List<Student> list;
-    private Student item = new Student();
-    private Student beforeEditItem = null;
+    
+	@Autowired
+    private StudentService studentService;
+	private List<Student> students;
+    private Student student = new Student();
+    private Student beforeEditStudent = null;
     private boolean edit;
     private SortOrder namesOrder = SortOrder.unsorted;
     private SortOrder ageOrder = SortOrder.unsorted;
- 
+    private SortOrder educationLevelOrder = SortOrder.unsorted;
+
     public void sortByNames() {
     	ageOrder = SortOrder.unsorted;
+    	educationLevelOrder = SortOrder.unsorted;
         
         if (namesOrder.equals(SortOrder.ascending)) {
             setNamesOrder(SortOrder.descending);
@@ -39,87 +44,106 @@ public class SimpleCrudBean implements Serializable {
     
     public void sortByAge() {
     	namesOrder = SortOrder.unsorted;
-        
+    	educationLevelOrder = SortOrder.unsorted;
         if (ageOrder.equals(SortOrder.ascending)) {
             setAgeOrder(SortOrder.descending);
         } else {
         	setAgeOrder(SortOrder.ascending);
         }
     }
+    
+    public void sortByEducationLevel() {
+    	namesOrder = SortOrder.unsorted;
+    	ageOrder = SortOrder.unsorted;
+        if (educationLevelOrder.equals(SortOrder.ascending)) {
+            setEducationLevelOrder(SortOrder.descending);
+        } else {
+        	setEducationLevelOrder(SortOrder.ascending);
+        }
+    }
+    
+   
 
-    @PostConstruct
+	@PostConstruct
     public void init() {
-        list = new ArrayList<Student>();
+    	
+    	students = studentService.getAllStudents();
     }
 
     public void add() {
-    	// DAO save the add
-        item.setId(list.isEmpty() ? 1 : list.get(list.size() - 1).getId() + 1);
-        if(!(item.getName().isEmpty() && (item.getAge() == 0 ))) {
-        list.add(item);
-        item = new Student();
-        }
+    	studentService.saveOrUpdate(student);
+        student = new Student();
+        students = studentService.getAllStudents();
     }
 
     public void resetAdd() {
-    	item = new Student();
+    	student = new Student();
+    	students = studentService.getAllStudents();
     }
 
-    public void edit(Student item) {
-    	beforeEditItem = item.clone();
-        this.item = item;
+    public void edit(Student student) {
+    	beforeEditStudent = student.clone();
+        this.student = student;
         edit = true;
     }
 
     public void cancelEdit() {
-    	this.item.restore(beforeEditItem);
-        this.item = new Student();
+    	this.student.restore(beforeEditStudent);
+        this.student = new Student();
         edit = false;
+        students = studentService.getAllStudents();
     }
 
     public void saveEdit() {
-    	// DAO save the edit
-    	if(this.item.getName().isEmpty())
-    		this.item.setName(beforeEditItem.getName());
-    	if(this.item.getAge() == 0)
-    		this.item.setAge(beforeEditItem.getAge());
-        this.item = new Student();
+    	if(this.student.getName().isEmpty())
+    		this.student.setName(beforeEditStudent.getName());
+    	if(this.student.getAge() == 0)
+    		this.student.setAge(beforeEditStudent.getAge());
+        studentService.update(this.student, this.student.getId());
+        this.student = new Student();
+        students = studentService.getAllStudents();
         edit = false;
     }
 
-    public void delete(Student item) throws IOException {
-    	// DAO save the delete
-        list.remove(item);
+	public void delete(Student student) throws IOException {
+		studentService.delete(student.getId());
+		students = studentService.getAllStudents();
+	}
+
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public List<Student> getList() {
-        return list;
-    }
-
-    public Student getItem() {
-        return this.item;
+    public Student getStudent() {
+        return this.student;
     }
 
     public boolean isEdit() {
         return this.edit;
     }
 
-	public SortOrder getNamesOrder() {
-		return namesOrder;
-	}
-
-	public void setNamesOrder(SortOrder namesOrder) {
-		this.namesOrder = namesOrder;
-	}
-
-	public SortOrder getAgeOrder() {
-		return ageOrder;
-	}
-
-	public void setAgeOrder(SortOrder ageOrder) {
-		this.ageOrder = ageOrder;
-	}
+    public SortOrder getNamesOrder() {
+        return namesOrder;
+    }
+ 
+    public void setNamesOrder(SortOrder namesOrder) {
+        this.namesOrder = namesOrder;
+    }
+ 
+    public SortOrder getAgeOrder() {
+        return ageOrder;
+    }
+ 
+    public void setAgeOrder(SortOrder ageOrder) {
+        this.ageOrder = ageOrder;
+    }
     
-    
+    public SortOrder getEducationLevelOrder() {
+		return educationLevelOrder;
+	}
+
+	public void setEducationLevelOrder(SortOrder educationLevelOrder) {
+		this.educationLevelOrder = educationLevelOrder;
+	}
 
 }

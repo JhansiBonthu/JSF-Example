@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<head>
+	<title>Refresh-safe CRUD</title>
+</head>
+
+<body>
+	<h3>List students</h3>
+	<h:form rendered="#{not empty freshsafeCrudBean.students}">
+		<h:dataTable value="#{freshsafeCrudBean.students}" var="student">
+			<h:column><f:facet name="header">ID</f:facet>#{student.id}</h:column>
+			<h:column><f:facet name="header">Name</f:facet>#{student.name}</h:column>
+			<h:column><f:facet name="header">Age</f:facet>#{student.age}</h:column>
+			<h:column><f:facet name="header">Education Level</f:facet>#{student.educationLevel}</h:column>
+			<h:column>
+				<h:commandButton value="edit" action="#{freshsafeCrudBean.edit(student)}" />
+			</h:column>
+			<h:column>
+				<h:commandButton value="delete" action="#{freshsafeCrudBean.delete(student)}" />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+
+	<h:panelGroup rendered="#{empty freshsafeCrudBean.students}">
+		<p>No students! Please add students.</p>
+	</h:panelGroup>
+
+	<h:panelGroup rendered="#{!freshsafeCrudBean.edit}">
+		<h3>Add student</h3>
+		<h:form>
+			<p>Name: <h:inputText value="#{freshsafeCrudBean.student.name}" /></p>
+			<p>Age: <h:inputText value="#{freshsafeCrudBean.student.age}" /></p>
+			<p>
+				<h:commandButton value="add" action="#{freshsafeCrudBean.add}" />
+				<h:commandButton value="reset" action="#{freshsafeCrudBean.resetAdd}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
+	
+	<h:panelGroup rendered="#{freshsafeCrudBean.edit}">
+		<h3>Edit student #{bean.item.id}</h3>
+		<h:form>
+			<p>Name: <h:inputText value="#{freshsafeCrudBean.student.name}" /></p>
+			<p>Age: <h:inputText value="#{freshsafeCrudBean.student.age}" /></p>
+			<p>
+				<h:commandButton value="save" action="#{freshsafeCrudBean.saveEdit}" />
+				<h:commandButton value="cancel" action="#{freshsafeCrudBean.cancelEdit}" />
+			</p>
+		</h:form>
+	</h:panelGroup>
+	<p>
+		<a href="welcome.xhtml">Go back to index</a>
+	</p>
+</body>
+</html>

@@ -53,11 +53,20 @@
 	<h:panelGroup rendered="#{!simpleCrudBean.edit}">
 		<h3>Add student</h3>
 		<h:form>
-			<p>Name: <h:inputText value="#{simpleCrudBean.student.name}"/></p>
-			<p>Age: <h:inputText value="#{simpleCrudBean.student.age}" /></p>
+			<p>Name: <h:inputText value="#{simpleCrudBean.student.name}" id="inputName" label="Name" required="true"/>
+			<h:message for="inputName" style="color:red"/>
+			</p>
+			<p>Age: 
+			  <h:inputText value="#{simpleCrudBean.student.age}" id="ageInput" label="Age">
+			  <f:validateLongRange minimum = "13" />
+			  </h:inputText>
+			  <h:message for="ageInput" style="color:red"/>
+			</p>
 			<p>
 				<h:commandButton value="add" action="#{simpleCrudBean.add}" />
-				<h:commandButton value="reset" action="#{simpleCrudBean.resetAdd}" />
+				<h:commandButton value="reset" action="#{simpleCrudBean.resetAdd}">
+				<f:ajax render="@form" resetValues="true"/>
+				</h:commandButton>
 			</p>
 		</h:form>
 	</h:panelGroup>
@@ -66,10 +75,17 @@
 		<h3>Edit student #{simpleCrudBean.student.id}</h3>
 		<h:form>
 			<p>Name: <h:inputText value="#{simpleCrudBean.student.name}" /></p>
-			<p>Age: <h:inputText value="#{simpleCrudBean.student.age}" /></p>
+			<p>Age: 
+			  <h:inputText value="#{simpleCrudBean.student.age}" id="ageEdit" label="Age">
+			   <f:validateLongRange minimum = "13" />
+			  </h:inputText>
+			  <h:message for="ageEdit" style="color:red"/>
+			</p>
 			<p>
 				<h:commandButton value="save" action="#{simpleCrudBean.saveEdit}" />
-				<h:commandButton value="cancel" action="#{simpleCrudBean.cancelEdit}" />
+				<h:commandButton value="cancel" action="#{simpleCrudBean.cancelEdit}">
+				<f:ajax render="@form" resetValues="true"/>
+				</h:commandButton>
 			</p>
 		</h:form>
 	</h:panelGroup>

@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
-<head>
+<h:head>
 	<title>Refresh-safe CRUD</title>
-</head>
+</h:head>
 
-<body>
+<h:body>
 	<h3>List students</h3>
 	<h:form rendered="#{not empty freshsafeCrudBean.students}">
 		<h:dataTable value="#{freshsafeCrudBean.students}" var="student">
@@ -30,11 +30,21 @@
 	<h:panelGroup rendered="#{!freshsafeCrudBean.edit}">
 		<h3>Add student</h3>
 		<h:form>
-			<p>Name: <h:inputText value="#{freshsafeCrudBean.student.name}" /></p>
-			<p>Age: <h:inputText value="#{freshsafeCrudBean.student.age}" /></p>
+			<p>Name: <h:inputText value="#{freshsafeCrudBean.student.name}" id="inputName" label="Name" required="true"/>
+			<h:message for="inputName" style="color:red"/>
+			</p>
+			<p>Age: 
+			  <h:inputText value="#{freshsafeCrudBean.student.age}" id="ageInput" label="Age">
+			  <f:validateLongRange minimum = "13" />
+			  </h:inputText>
+			  <h:message for="ageInput" style="color:red"/>
+			</p>
 			<p>
 				<h:commandButton value="add" action="#{freshsafeCrudBean.add}" />
-				<h:commandButton value="reset" action="#{freshsafeCrudBean.resetAdd}" />
+				<h:commandButton value="reset" action="#{freshsafeCrudBean.resetAdd}">
+				<f:ajax render="@form" resetValues="true"/>
+				</h:commandButton>
+				
 			</p>
 		</h:form>
 	</h:panelGroup>
@@ -43,15 +53,22 @@
 		<h3>Edit student #{bean.item.id}</h3>
 		<h:form>
 			<p>Name: <h:inputText value="#{freshsafeCrudBean.student.name}" /></p>
-			<p>Age: <h:inputText value="#{freshsafeCrudBean.student.age}" /></p>
+			<p>Age: 
+			  <h:inputText value="#{freshsafeCrudBean.student.age}" id="ageEdit" label="Age">
+			   <f:validateLongRange minimum = "13" />
+			  </h:inputText>
+			  <h:message for="ageEdit" style="color:red"/>
+			</p>
 			<p>
 				<h:commandButton value="save" action="#{freshsafeCrudBean.saveEdit}" />
-				<h:commandButton value="cancel" action="#{freshsafeCrudBean.cancelEdit}" />
+				<h:commandButton value="cancel" action="#{freshsafeCrudBean.cancelEdit}">
+				<f:ajax render="@form" resetValues="true"/>
+				</h:commandButton>
 			</p>
 		</h:form>
 	</h:panelGroup>
 	<p>
 		<a href="welcome.xhtml">Go back to index</a>
 	</p>
-</body>
+</h:body>
 </html>

@@ -16,8 +16,7 @@
    </parent>
 	
 	<properties>
-       <!--  <tomcat.version>7.0.55</tomcat.version> -->
-        <jsf.version>2.2.6</jsf.version>
+       <jsf.version>2.2.6</jsf.version>
     </properties>
           
     <dependencies>
@@ -25,13 +24,6 @@
 	         <groupId>org.springframework.boot</groupId>
 	         <artifactId>spring-boot-starter-web</artifactId>
 	      </dependency>         
-         <!-- Sevlet jars for compilation, provided by Tomcat -->
-        <!--<dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-servlet-api</artifactId>
-            <version>${tomcat.version}</version>
-            <scope>provided</scope>
-        </dependency> -->
         <dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -46,11 +38,6 @@
          <groupId>org.apache.tomcat.embed</groupId>
          <artifactId>tomcat-embed-jasper</artifactId>
       </dependency>
-      <!-- <dependency>
-         <groupId>org.primefaces</groupId>
-         <artifactId>primefaces</artifactId>
-         <version>7.0</version>
-      </dependency> -->
       <dependency>
          <groupId>javax.enterprise</groupId>
          <artifactId>cdi-api</artifactId>
@@ -104,30 +91,6 @@
 		   <artifactId>rewrite-config-prettyfaces</artifactId>
 		   <version>3.4.1.Final</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.joinfaces/jsf-spring-boot-starter -->
-		<!-- <dependency>
-		    <groupId>org.joinfaces</groupId>
-		    <artifactId>jsf-spring-boot-starter</artifactId>
-		    <version>4.3.0</version>
-		</dependency> -->
-		
-		<!-- <dependency>
-			<groupId>org.richfaces.framework</groupId>
-			<artifactId>richfaces-api</artifactId>
-			<version>4.3.7.Final</version>
-		</dependency> -->
-		<!-- <dependency>
-			<groupId>org.richfaces.framework</groupId>
-			<artifactId>richfaces-impl</artifactId>
-			<version>4.3.7.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.richfaces.ui</groupId>
-			<artifactId>richfaces-ui</artifactId>
-			<version>4.3.7.Final</version>
-		</dependency> -->
-		
-		
     </dependencies>
       
     <build>

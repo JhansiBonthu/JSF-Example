@@ -6,16 +6,14 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
 import org.richfaces.component.SortOrder;
 //import org.richfaces.component.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@ManagedBean
-@ViewScoped
+import com.song.jsf.example.util.CommonUtils;
+
 @Named
 public class SimpleCrudBean implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +28,7 @@ public class SimpleCrudBean implements Serializable {
     private SortOrder namesOrder = SortOrder.unsorted;
     private SortOrder ageOrder = SortOrder.unsorted;
     private SortOrder educationLevelOrder = SortOrder.unsorted;
-
+    private CommonUtils util = new CommonUtils();
     public void sortByNames() {
     	ageOrder = SortOrder.unsorted;
     	educationLevelOrder = SortOrder.unsorted;
@@ -52,15 +50,15 @@ public class SimpleCrudBean implements Serializable {
         }
     }
     
-    public void sortByEducationLevel() {
-    	namesOrder = SortOrder.unsorted;
-    	ageOrder = SortOrder.unsorted;
-        if (educationLevelOrder.equals(SortOrder.ascending)) {
-            setEducationLevelOrder(SortOrder.descending);
-        } else {
-        	setEducationLevelOrder(SortOrder.ascending);
-        }
-    }
+	public void sortByEducationLevel() {
+		namesOrder = SortOrder.unsorted;
+		ageOrder = SortOrder.unsorted;
+		if (educationLevelOrder.equals(SortOrder.ascending)) {
+			setEducationLevelOrder(SortOrder.descending);
+		} else {
+			setEducationLevelOrder(SortOrder.ascending);
+		}
+	}
     
    
 
@@ -74,24 +72,29 @@ public class SimpleCrudBean implements Serializable {
     	studentService.saveOrUpdate(student);
         student = new Student();
         students = studentService.getAllStudents();
+        util.redirectWithGet();
     }
 
     public void resetAdd() {
     	student = new Student();
     	students = studentService.getAllStudents();
+    	util.redirectWithGet();
     }
 
     public void edit(Student student) {
     	beforeEditStudent = student.clone();
-        this.student = student;
-        edit = true;
+		this.student = student;
+		edit = true;
+
+		util.redirectWithGet();
     }
 
     public void cancelEdit() {
-    	this.student.restore(beforeEditStudent);
-        this.student = new Student();
+    	this.student = new Student();
         edit = false;
         students = studentService.getAllStudents();
+
+		util.redirectWithGet();
     }
 
     public void saveEdit() {
@@ -103,11 +106,13 @@ public class SimpleCrudBean implements Serializable {
         this.student = new Student();
         students = studentService.getAllStudents();
         edit = false;
+        util.redirectWithGet();
     }
 
 	public void delete(Student student) throws IOException {
 		studentService.delete(student.getId());
 		students = studentService.getAllStudents();
+		util.redirectWithGet();
 	}
 
     public List<Student> getStudents() {

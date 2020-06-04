@@ -5,16 +5,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.song.jsf.example.util.CommonUtils;
 
-@ManagedBean
-@ViewScoped
 @Named
 public class FreshsafeCrudBean implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -57,7 +53,6 @@ public class FreshsafeCrudBean implements Serializable {
 	}
 
 	public void cancelEdit() {
-		this.student.restore(beforeEditStudent);
 		this.student = new Student();
 		edit = false;
 		students = studentService.getAllStudents();

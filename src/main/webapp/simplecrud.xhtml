@@ -58,7 +58,7 @@
 			</p>
 			<p>Age: 
 			  <h:inputText value="#{simpleCrudBean.student.age}" id="ageInput" label="Age">
-			  <f:validateLongRange minimum = "13" />
+			  <f:validateLongRange minimum = "13" maximum="100"/>
 			  </h:inputText>
 			  <h:message for="ageInput" style="color:red"/>
 			</p>
@@ -77,7 +77,7 @@
 			<p>Name: <h:inputText value="#{simpleCrudBean.student.name}" /></p>
 			<p>Age: 
 			  <h:inputText value="#{simpleCrudBean.student.age}" id="ageEdit" label="Age">
-			   <f:validateLongRange minimum = "13" />
+			   <f:validateLongRange minimum = "13" maximum="100"/>
 			  </h:inputText>
 			  <h:message for="ageEdit" style="color:red"/>
 			</p>

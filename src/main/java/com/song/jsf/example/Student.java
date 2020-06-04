@@ -9,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.Range;
+
+import com.song.jsf.example.util.Constants;
+
 @Entity
 public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,6 +24,7 @@ public class Student implements Serializable {
 	@Column
 	private String name;
 	@Column
+	@Range(min = Constants.MIN_RANGE, max = Constants.MAX_RANGE)
 	private int age;
 	@Column
 	private String educationLevel;
@@ -75,10 +80,10 @@ public class Student implements Serializable {
 	public void setAge(int age) {
 		this.age = age;
 		if (age > 12 && age <= 16)
-			setEducationLevel("Elementary");
+			setEducationLevel(Constants.STUDENT_LEVEL1);
 		else if (age > 16 && age <= 22)
-			setEducationLevel("Secondary");
+			setEducationLevel(Constants.STUDENT_LEVEL2);
 		else
-			setEducationLevel("Higher");
+			setEducationLevel(Constants.STUDENT_LEVEL3);
 	}
 }

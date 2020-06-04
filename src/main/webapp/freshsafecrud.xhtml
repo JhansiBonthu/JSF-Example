@@ -7,7 +7,7 @@
 </h:head>
 
 <h:body>
-	<h3>List students</h3>
+	<h3>Students List</h3>
 	<h:form rendered="#{not empty freshsafeCrudBean.students}">
 		<h:dataTable value="#{freshsafeCrudBean.students}" var="student">
 			<h:column><f:facet name="header">ID</f:facet>#{student.id}</h:column>

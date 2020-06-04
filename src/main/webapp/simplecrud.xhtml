@@ -9,13 +9,13 @@
 </h:head>
 
 <h:body>
-	<h3>List students</h3>
+	<h3>Students List</h3>
 	
 	<h:form rendered="#{not empty simpleCrudBean.students}">
 		<rich:dataTable value="#{simpleCrudBean.students}" var="student" id="table" width="300px">
-			<rich:column>
+			<rich:column sortBy="#{student.id}" id="id" sortOrder="#{simpleCrudBean.idOrder}" sortType="custom">
 				<f:facet name="header">
-					<h:outputText value="Id"/>
+					<a4j:commandLink value="Sort by Id" render="table" action="#{simpleCrudBean.sortById}" />
 				</f:facet>
 				<h:outputText value="#{student.id}"/>
 			</rich:column>

@@ -28,11 +28,21 @@ public class SimpleCrudBean implements Serializable {
     private SortOrder namesOrder = SortOrder.unsorted;
     private SortOrder ageOrder = SortOrder.unsorted;
     private SortOrder educationLevelOrder = SortOrder.unsorted;
-    private CommonUtils util = new CommonUtils();
+    private SortOrder idOrder = SortOrder.unsorted;
+    public SortOrder getIdOrder() {
+		return idOrder;
+	}
+
+	public void setIdOrder(SortOrder idOrder) {
+		this.idOrder = idOrder;
+	}
+
+	private CommonUtils util = new CommonUtils();
+    
     public void sortByNames() {
     	ageOrder = SortOrder.unsorted;
     	educationLevelOrder = SortOrder.unsorted;
-        
+    	idOrder = SortOrder.unsorted;
         if (namesOrder.equals(SortOrder.ascending)) {
             setNamesOrder(SortOrder.descending);
         } else {
@@ -43,6 +53,7 @@ public class SimpleCrudBean implements Serializable {
     public void sortByAge() {
     	namesOrder = SortOrder.unsorted;
     	educationLevelOrder = SortOrder.unsorted;
+    	idOrder = SortOrder.unsorted;
         if (ageOrder.equals(SortOrder.ascending)) {
             setAgeOrder(SortOrder.descending);
         } else {
@@ -53,6 +64,7 @@ public class SimpleCrudBean implements Serializable {
 	public void sortByEducationLevel() {
 		namesOrder = SortOrder.unsorted;
 		ageOrder = SortOrder.unsorted;
+		idOrder = SortOrder.unsorted;
 		if (educationLevelOrder.equals(SortOrder.ascending)) {
 			setEducationLevelOrder(SortOrder.descending);
 		} else {
@@ -60,6 +72,16 @@ public class SimpleCrudBean implements Serializable {
 		}
 	}
     
+	public void sortById() {
+		namesOrder = SortOrder.unsorted;
+		ageOrder = SortOrder.unsorted;
+		educationLevelOrder = SortOrder.unsorted;
+		if (idOrder.equals(SortOrder.ascending)) {
+			setIdOrder(SortOrder.descending);
+		} else {
+			setIdOrder(SortOrder.ascending);
+		}
+	}
    
 
 	@PostConstruct
@@ -116,7 +138,7 @@ public class SimpleCrudBean implements Serializable {
 	}
 
     public List<Student> getStudents() {
-        return students;
+        return studentService.getAllStudents();
     }
 
     public Student getStudent() {

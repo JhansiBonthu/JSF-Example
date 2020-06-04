@@ -80,7 +80,7 @@ public class FreshsafeCrudBean implements Serializable {
 	}
 
 	public List<Student> getStudents() {
-		return students;
+		return studentService.getAllStudents();
 	}
 
 	public Student getStudent() {

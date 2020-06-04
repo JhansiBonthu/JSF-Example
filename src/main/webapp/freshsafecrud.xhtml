@@ -10,7 +10,7 @@
 	<h3>Students List</h3>
 	<h:form rendered="#{not empty freshsafeCrudBean.students}">
 		<h:dataTable value="#{freshsafeCrudBean.students}" var="student">
-			<h:column><f:facet name="header">ID</f:facet>#{student.id}</h:column>
+			<h:column><f:facet name="header">Id</f:facet>#{student.id}</h:column>
 			<h:column><f:facet name="header">Name</f:facet>#{student.name}</h:column>
 			<h:column><f:facet name="header">Age</f:facet>#{student.age}</h:column>
 			<h:column><f:facet name="header">Education Level</f:facet>#{student.educationLevel}</h:column>

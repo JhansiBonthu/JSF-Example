@@ -15,25 +15,25 @@
 		<rich:dataTable value="#{simpleCrudBean.students}" var="student" id="table" width="300px">
 			<rich:column sortBy="#{student.id}" id="id" sortOrder="#{simpleCrudBean.idOrder}" sortType="custom">
 				<f:facet name="header">
-					<a4j:commandLink value="Sort by Id" render="table" action="#{simpleCrudBean.sortById}" />
+					<a4j:commandLink value="Id" render="table" action="#{simpleCrudBean.sortById}" />
 				</f:facet>
 				<h:outputText value="#{student.id}"/>
 			</rich:column>
 			<rich:column sortBy="#{student.name}" id="name" sortOrder="#{simpleCrudBean.namesOrder}" sortType="custom">
 				<f:facet name="header">
-					<a4j:commandLink value="Sort by Name" render="table" action="#{simpleCrudBean.sortByNames}" />
+					<a4j:commandLink value="Name" render="table" action="#{simpleCrudBean.sortByNames}" />
 				</f:facet>
 				<h:outputText value="#{student.name}"/>
 			</rich:column>
 			<rich:column sortBy="#{student.age}" id="age" sortOrder="#{simpleCrudBean.ageOrder}" sortType="custom">
 				<f:facet name="header">
-					<a4j:commandLink value="Sort by Age" render="table" action="#{simpleCrudBean.sortByAge}" />
+					<a4j:commandLink value="Age" render="table" action="#{simpleCrudBean.sortByAge}" />
 				</f:facet>
 				<h:outputText value="#{student.age}"/>
 			</rich:column>
 			<rich:column sortBy="#{student.educationLevel}" id="educationLevel" sortOrder="#{simpleCrudBean.educationLevelOrder}" sortType="custom">
 				<f:facet name="header">
-					<a4j:commandLink value="Sort by Education Level" render="table" action="#{simpleCrudBean.sortByEducationLevel}" />
+					<a4j:commandLink value="Education Level" render="table" action="#{simpleCrudBean.sortByEducationLevel}" />
 				</f:facet>
 				<h:outputText value="#{student.educationLevel}"/>
 			</rich:column>
